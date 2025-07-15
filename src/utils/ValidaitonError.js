@@ -10,12 +10,13 @@ class ValidationError extends AppError {
         });
         const statusCode = StatusCodes.BAD_REQUEST;
 
-        super({
-            name: 'ValidationError',
-            message: 'Not able to validate the data sent by the user',
+        super(
+            'ValidationError',
+            'Not able to validate the data sent by the user',
             explanation,
-            statusCode
-        });
+            statusCode,
+            error.stack
+        );
     }
 }
 

@@ -1,4 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
+const AppError = require('./AppError');
 
 class ServiceError extends AppError {
     constructor(

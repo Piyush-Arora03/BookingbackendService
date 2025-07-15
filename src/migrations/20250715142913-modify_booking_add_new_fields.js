@@ -4,7 +4,7 @@ const { sequelize } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add altering commands here.
      *
@@ -13,11 +13,11 @@ module.exports = {
      */
     await queryInterface.addColumn(
       'Bookings',
-      'noOfSeates',
+      'noOfSeats',
       {
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        defaultValue:1
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1
       }
     );
 
@@ -25,15 +25,15 @@ module.exports = {
       'Bookings',
       'totalCost',
       {
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        defaultValue:0
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
       }
     );
 
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
      *
@@ -41,7 +41,7 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
 
-    await queryInterface.removeColumn('Bookings','noOfSeates');
-    await queryInterface.removeColumn('Bookings','totalCost');
+    await queryInterface.removeColumn('Bookings', 'noOfSeats');
+    await queryInterface.removeColumn('Bookings', 'totalCost');
   }
 };

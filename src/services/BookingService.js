@@ -36,6 +36,45 @@ class BookingService {
                 error.stack);
         }
     }
+
+    async cancelBooking(bookingId) {
+        try {
+            const booking = await this.bookingRepository.getById(bookingId);
+            if (!booking) {
+                throw new ServiceError(
+                    'Booking not found',
+                    `No booking found with id ${bookingId}`,
+                    StatusCodes.NOT_FOUND
+                );
+            }
+            const flightId = booking.flightId;
+            const getFlightRequestUrl = `${FLIGHT_SERVICE_PATH}/api/v1/flight/${flightId}`;
+            const flight = await axios.get(getFlightRequestUrl);
+            const flightData = flight.data.data;
+            await this.bookingRepository.update(bookingId, { status: 'Cancelled' });
+            const updateFlightRequestUrl = `${FLIGHT_SERVICE_PATH}/api/v1/flight/${flightId}`;
+            await axios.patch(updateFlightRequestUrl, {
+                totalSeats: flightData.totalSeats + booking.noOfSeats
+            });
+            return { message: 'Booking cancelled successfully' };
+        } catch (error) {
+            if (
+                error.name === 'ValidationError' ||
+                error.name === 'DbError' ||
+                error.name === 'RepositoryError' ||
+                error.name === 'ServiceError'
+            ) {
+                throw error;
+            }
+            throw new AppError(
+                'ServiceError',
+                error.message,
+                'Unknown error in Service',
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.stack
+            );
+        }
+    }
 }
 
 module.exports = BookingService;

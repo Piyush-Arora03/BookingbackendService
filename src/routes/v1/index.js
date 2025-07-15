@@ -1,7 +1,8 @@
-const express=require('express');
-const router=express.Router();
-const BookingController=require('../../controllers/BookingController');
+const express = require('express');
+const router = express.Router();
+const BookingController = require('../../controllers/BookingController');
 
-router.post('/bookings',BookingController.create);
+router.post('/bookings', BookingController.create);
+router.delete('/bookings/:id', BookingController.cancel);
 
-module.exports=router
+module.exports = router

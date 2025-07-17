@@ -37,7 +37,7 @@ class BookingService {
         }
     }
 
-    async cancelBooking(bookingId) {
+    async cancelBooking(bookingId) {        
         try {
             const booking = await this.bookingRepository.getById(bookingId);
             if (!booking) {
